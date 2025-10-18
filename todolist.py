@@ -1,17 +1,24 @@
 import tkinter as tk
 from tkinter import messagebox
+from datetime import datetime
 
 class ToDoApp:
     def __init__(self, root):
         self.root = root
         self.root.title("To-Do List")
-        self.root.minsize(400, 500)
+        self.root.minsize(420, 550)
         self.root.config(bg="#f8fafc")
 
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(2, weight=1)
 
-        title = tk.Label(root, text="📝 To-Do List", font=("Helvetica", 22, "bold"), bg="#f8fafc", fg="#111827")
+        title = tk.Label(
+            root,
+            text="📅 To-Do List",
+            font=("Helvetica", 22, "bold"),
+            bg="#f8fafc",
+            fg="#111827"
+        )
         title.grid(row=0, column=0, pady=(15, 5))
 
         input_frame = tk.Frame(root, bg="#f8fafc")
@@ -77,6 +84,10 @@ class ToDoApp:
             messagebox.showwarning("Warning", "Please enter a task!")
             return
 
+        now = datetime.now()
+        date_str = now.strftime("%Y-%m-%d")
+        time_str = now.strftime("%H:%M")
+
         frame = tk.Frame(self.task_list_frame, bg="#ffffff", padx=5, pady=6, relief="solid", bd=1)
         frame.pack(fill="x", padx=5, pady=5, expand=True)
 
@@ -84,15 +95,27 @@ class ToDoApp:
         checkbox = tk.Checkbutton(frame, variable=var, bg="#ffffff", activebackground="#ffffff")
         checkbox.pack(side="left", padx=5)
 
+        text_frame = tk.Frame(frame, bg="#ffffff")
+        text_frame.pack(side="left", fill="x", expand=True)
+
         label = tk.Label(
-            frame,
+            text_frame,
             text=task_text,
             font=("Helvetica", 13),
             bg="#ffffff",
             anchor="w",
-            wraplength=250
+            wraplength=260
         )
-        label.pack(side="left", fill="x", expand=True, padx=5)
+        label.pack(anchor="w")
+
+        date_time_label = tk.Label(
+            text_frame,
+            text=f"📅 {date_str}   🕒 {time_str}",
+            font=("Helvetica", 10, "italic"),
+            fg="#6b7280",
+            bg="#ffffff"
+        )
+        date_time_label.pack(anchor="w")
 
         del_btn = tk.Button(
             frame,
@@ -105,7 +128,7 @@ class ToDoApp:
         )
         del_btn.pack(side="right", padx=5)
 
-        self.tasks.append((frame, var, label))
+        self.tasks.append((frame, var, label, date_time_label))
         self.task_entry.delete(0, tk.END)
 
     def delete_task(self, frame):
@@ -114,7 +137,7 @@ class ToDoApp:
 
     def clear_tasks(self):
         if messagebox.askyesno("Confirm", "Are you sure you want to delete all tasks?"):
-            for frame, _, _ in self.tasks:
+            for frame, *_ in self.tasks:
                 frame.destroy()
             self.tasks.clear()
 
