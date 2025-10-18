@@ -1,12 +1,12 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 from datetime import datetime
 
 class ToDoApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("To-Do List")
-        self.root.minsize(420, 550)
+        self.root.title("To-Do List with Category, Date & Time")
+        self.root.minsize(450, 580)
         self.root.config(bg="#f8fafc")
 
         self.root.columnconfigure(0, weight=1)
@@ -14,8 +14,8 @@ class ToDoApp:
 
         title = tk.Label(
             root,
-            text="📅 To-Do List",
-            font=("Helvetica", 22, "bold"),
+            text="🗂️ To-Do List",
+            font=("Helvetica", 20, "bold"),
             bg="#f8fafc",
             fg="#111827"
         )
@@ -33,6 +33,19 @@ class ToDoApp:
         )
         self.task_entry.grid(row=0, column=0, sticky="ew", padx=(0, 10), ipady=5)
 
+        self.category_var = tk.StringVar()
+        categories = ["Work", "Personal", "Study", "Shopping", "Other"]
+        self.category_menu = ttk.Combobox(
+            input_frame,
+            textvariable=self.category_var,
+            values=categories,
+            state="readonly",
+            width=10,
+            font=("Helvetica", 12)
+        )
+        self.category_menu.set("Select...")
+        self.category_menu.grid(row=0, column=1, padx=(0, 10))
+
         add_btn = tk.Button(
             input_frame,
             text="➕ Add Task",
@@ -44,7 +57,7 @@ class ToDoApp:
             relief="flat",
             height=1
         )
-        add_btn.grid(row=0, column=1, ipadx=10)
+        add_btn.grid(row=0, column=2, ipadx=10)
 
         task_container = tk.Frame(root, bg="#f8fafc")
         task_container.grid(row=2, column=0, sticky="nsew", padx=15, pady=5)
@@ -80,8 +93,13 @@ class ToDoApp:
 
     def add_task(self):
         task_text = self.task_entry.get().strip()
+        category = self.category_var.get()
+
         if not task_text:
             messagebox.showwarning("Warning", "Please enter a task!")
+            return
+        if category == "Select...":
+            messagebox.showwarning("Warning", "Please select a category!")
             return
 
         now = datetime.now()
@@ -104,18 +122,18 @@ class ToDoApp:
             font=("Helvetica", 13),
             bg="#ffffff",
             anchor="w",
-            wraplength=260
+            wraplength=300
         )
         label.pack(anchor="w")
 
-        date_time_label = tk.Label(
+        info_label = tk.Label(
             text_frame,
-            text=f"📅 {date_str}   🕒 {time_str}",
+            text=f"🏷️ {category}   |   📅 {date_str}   🕒 {time_str}",
             font=("Helvetica", 10, "italic"),
             fg="#6b7280",
             bg="#ffffff"
         )
-        date_time_label.pack(anchor="w")
+        info_label.pack(anchor="w")
 
         del_btn = tk.Button(
             frame,
@@ -128,8 +146,9 @@ class ToDoApp:
         )
         del_btn.pack(side="right", padx=5)
 
-        self.tasks.append((frame, var, label, date_time_label))
+        self.tasks.append((frame, var, label, info_label))
         self.task_entry.delete(0, tk.END)
+        self.category_menu.set("Select...")
 
     def delete_task(self, frame):
         frame.destroy()
@@ -140,6 +159,7 @@ class ToDoApp:
             for frame, *_ in self.tasks:
                 frame.destroy()
             self.tasks.clear()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
