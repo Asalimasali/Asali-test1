@@ -1,0 +1,46 @@
+{
+  "transactions": [
+    {
+      "id": 1,
+      "date": "2025-10-26",
+      "type": "Expense",
+      "category": "fghjkl",
+      "amount": 452656.0,
+      "description": "cfvghjkl;"
+    },
+    {
+      "id": 2,
+      "date": "2025-10-26",
+      "type": "Expense",
+      "category": "Salary",
+      "amount": 456252.0,
+      "description": "لاتن"
+    },
+    {
+      "id": 3,
+      "date": "2025-10-26",
+      "type": "Expense",
+      "category": "Transport",
+      "amount": 123456.0,
+      "description": "صثقبفغع"
+    },
+    {
+      "id": 4,
+      "date": "2025-10-26",
+      "type": "Income",
+      "category": "Salary",
+      "amount": 99999999999999.0,
+      "description": "قفبلات"
+    }
+  ],
+  "categories": [
+    "Salary",
+    "Groceries",
+    "Transport",
+    "Entertainment",
+    "Utilities",
+    "Other",
+    "fghjkl"
+  ],
+  "last_updated": "2025-10-26T18:01:24.571766"
+}
