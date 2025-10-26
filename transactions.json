@@ -31,6 +31,14 @@
       "category": "Salary",
       "amount": 99999999999999.0,
       "description": "قفبلات"
+    },
+    {
+      "id": 5,
+      "date": "2025-10-26",
+      "type": "Expense",
+      "category": "Salary",
+      "amount": 65432.0,
+      "description": "کمنتالب"
     }
   ],
   "categories": [
@@ -42,5 +50,5 @@
     "Other",
     "fghjkl"
   ],
-  "last_updated": "2025-10-26T18:01:24.571766"
+  "last_updated": "2025-10-26T18:11:09.700485"
 }
